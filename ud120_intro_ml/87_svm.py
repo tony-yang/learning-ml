@@ -43,7 +43,6 @@ def main():
     # Plot the data
     plt.xlim(x_min, x_max)
     plt.ylim(y_min, y_max)
-
     plt.legend()
     plt.xlabel('bumpiness')
     plt.ylabel('grade')
@@ -51,73 +50,36 @@ def main():
     # Train the data
     features_train, labels_train = create_label(bumpy_sig, grade_sig, bumpy_bkg, grade_bkg)
 
-    print('bumpy sig')
-    print(bumpy_sig)
-
-    print('features train')
-    print(features_train)
-    print('features train shape')
-    print(features_train.shape)
-    print('labels train')
-    print(labels_train)
-
     test_bumpy_sig, test_grade_sig, test_bumpy_bkg, test_grade_bkg = make_terrain_data(200)
     features_test, labels_test = create_label(test_bumpy_sig, test_grade_sig, test_bumpy_bkg, test_grade_bkg)
 
     clf = GaussianNB()
-    #clf = svm.SVC()
     clf.fit(features_train, labels_train)
-    #pred = clf.predict(features_test)
+    pred = clf.predict(features_test)
 
-    # XX = np.concatenate((np.array(test_bumpy_sig), np.array(test_bumpy_bkg)))
-    # XX_shape = XX.reshape(20, 20)
-    # YY = np.concatenate((np.array(test_grade_sig), np.array(test_grade_bkg)))
-    # YY_shape = YY.reshape(20, 20)
-    # # Z = np.array(labels_test).reshape(XX.shape)
-    # Z = clf.predict(features_test)
+    print('The prediction for the features test using NB = ')
+    pp.pprint(pred)
+
+    score = accuracy_score(labels_test, pred)
+    print('The prediction accuracy score = {}'.format(score))
+
+    clfSVM = svm.SVC()
+    clfSVM.fit(features_train, labels_train)
+    predSVM = clfSVM.predict(features_test)
+
+    print('The prediction for the features test using SVM = ')
+    pp.pprint(predSVM)
+
+    scoreSVM = accuracy_score(labels_test, predSVM)
+    print('The prediction accuracy score = {}'.format(scoreSVM))
 
     XX, YY = np.mgrid[x_min:x_max:200j, y_min:y_max:200j]
-    XX_shape = XX
-    YY_shape = YY
     # test_pred = np.c_[XX.ravel(), YY.ravel()]
     features_test2, labels_test2 = create_label(XX.ravel(), YY.ravel(), [], [])
-    Z = clf.predict(features_test2)
-    print('XX')
-    print(XX)
-    print('XX shape')
-    print(XX.shape)
-    print('XX_shape')
-    print(XX_shape)
-    print('XX_shape shape')
-    print(XX_shape.shape)
+    Z = clfSVM.predict(features_test2)
+    Z = Z.reshape(XX.shape)
 
-    # print('features test')
-    # print(features_test)
-    # print('features test shape')
-    # print(features_test.shape)
-
-    print('features test 2')
-    print(features_test2)
-    print('features test 2 shape')
-    print(features_test2.shape)
-
-    print('Z')
-    print(Z)
-    print('Z shape')
-    print(Z.shape)
-
-    # print('test_pred')
-    # print(test_pred)
-
-
-
-    # score = accuracy_score(labels_test, Z)
-    # print('The prediction accuracy score = {}'.format(score))
-
-    Z = Z.reshape(XX_shape.shape)
-
-    plt.pcolormesh(XX_shape, YY_shape, Z, cmap=plt.cm.Paired)
-    # plt.scatter(XX, YY, color='k', label='mgrid')
+    plt.pcolormesh(XX, YY, Z, cmap=plt.cm.Paired)
     plt.scatter(bumpy_sig, grade_sig, color='b', label='fast')
     plt.scatter(bumpy_bkg, grade_bkg, color='r', label='slow')
 
