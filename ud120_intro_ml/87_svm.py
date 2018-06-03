@@ -63,7 +63,7 @@ def main():
     score = accuracy_score(labels_test, pred)
     print('The prediction accuracy score = {}'.format(score))
 
-    clfSVM = svm.SVC()
+    clfSVM = svm.SVC(kernel='linear', gamma=1.0, C=0.1)
     clfSVM.fit(features_train, labels_train)
     predSVM = clfSVM.predict(features_test)
 
@@ -74,7 +74,6 @@ def main():
     print('The prediction accuracy score = {}'.format(scoreSVM))
 
     XX, YY = np.mgrid[x_min:x_max:200j, y_min:y_max:200j]
-    # test_pred = np.c_[XX.ravel(), YY.ravel()]
     features_test2, labels_test2 = create_label(XX.ravel(), YY.ravel(), [], [])
     Z = clfSVM.predict(features_test2)
     Z = Z.reshape(XX.shape)
