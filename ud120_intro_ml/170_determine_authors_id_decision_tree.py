@@ -1,16 +1,17 @@
 from time import time
 
 from data.email_preprocess import preprocess
-from sklearn import svm
+from sklearn import tree
 from sklearn.metrics import accuracy_score
 
 features_train, features_test, labels_train, labels_test = preprocess()
 
-# Linear kernel took about 3 minutes, and give an accuracy of about 98.4%. Prediction time is also around 16 seconds. Unlike the other classifier where prediction time runs in sub-second.
-# The rbf kernel is much slower than the others. It took almost 18 minutes to train, 2 minutes to predict, with an accuracy of only 49%
+# With the default gini impurity, it took about 1 minute to train. Accuracy was very good, over 99%
+# Using entropy, it's much faster, about 20 seconds to train, with an accuracy also over 99%
 
-#clf = svm.SVC(kernel='linear')
-clf = svm.SVC(kernel='rbf')
+
+# clf = tree.DecisionTreeClassifier()
+clf = tree.DecisionTreeClassifier(criterion='entropy')
 training_start_time = time()
 clf.fit(features_train, labels_train)
 training_end_time = time()

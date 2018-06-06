@@ -6,6 +6,8 @@ from sklearn.metrics import accuracy_score
 
 features_train, features_test, labels_train, labels_test = preprocess()
 
+# The naive bayes took 1.6 seconds to train and 0.18 seconds to predict. Its accuracy is around 97.3%
+
 clf = GaussianNB()
 training_start_time = time()
 clf.fit(features_train, labels_train)

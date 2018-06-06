@@ -10,7 +10,7 @@ import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
 def make_terrain_data(n_points=1000):
-    random.seed()
+    random.seed(42)
     bumpy_sig = [random.uniform(0, 0.9) for i in range(n_points)]
     bumpy_bkg = [random.random() for i in range(n_points)]
 
@@ -74,7 +74,7 @@ def main():
     scoreSVM = accuracy_score(labels_test, predSVM)
     print('The prediction accuracy score = {}'.format(scoreSVM))
 
-    clfTree = tree.DecisionTreeClassifier()
+    clfTree = tree.DecisionTreeClassifier(min_samples_split=2)
     clfTree.fit(features_train, labels_train)
     predTree = clfTree.predict(features_test)
 
