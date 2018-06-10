@@ -3,28 +3,17 @@
 import numpy as np
 import random
 
-def make_terrain_data(n_points=50):
+def make_terrain_data(n_points=10000):
     random.seed(42)
     grade = [random.random() for i in range(n_points)]
     bumpy = [random.random() for i in range(n_points)]
     error = [random.random() for i in range(n_points)]
-    # print('grade = ')
-    # print(grade)
-    # print('bumpy')
-    # print(bumpy)
-    # print('error')
-    # print(error)
-    # Generate the label value based on whether the result is greater than 0.5 or not.
     y = [round(grade[i] * bumpy[i] + 0.3 + 0.1 * error[i]) for i in range(n_points)]
-    print('y =')
-    print(y)
     for i in range(len(y)):
         if grade[i] > 0.8 or bumpy[i] > 0.8:
             y[i] = 1.0
     
     x = [[grade_item, bumpy_item] for grade_item, bumpy_item in zip(grade, bumpy)]
-    print('x =')
-    print(x)
     split = int(0.75 * n_points)
     x_train = x[0:split]
     x_test = x[split:]
