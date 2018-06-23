@@ -7,9 +7,11 @@ import time
 
 from knn import knn
 
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import cross_val_score
 
 features_train, labels_train, features_test, labels_test = make_terrain_data()
 #features_train, labels_train, features_test, labels_test = make_terrain_data2()
@@ -62,8 +64,21 @@ print('====== sklearn KNN ======')
 print('The sklearn KNN classification accuracy = {}'.format(accuracy))
 print('Training and prediction time = {}'.format(knn_end - knn_begin))
 
+# AdaBoost scikit-learn
+adaboost_begin = time.time()
+clf3 = AdaBoostClassifier(n_estimators=100)
+clf3.fit(features_train, labels_train)
+pred = clf3.predict(features_test)
+accuracy = accuracy_score(labels_test, pred)
+adaboost_end = time.time()
+print('====== sklearn AdaBoost ======')
+print('The sklearn AdaBoost classification accuracy = {}'.format(accuracy))
+print('Training and prediction time = {}'.format(adaboost_end - adaboost_begin))
+
+
 try:
     pretty_picture(clf, features_test, labels_test)
     pretty_picture(clf2, features_test, labels_test)
+    pretty_picture(clf3, features_test, labels_test)
 except NameError as e:
     print('There is a name error: {}'.format(e))
