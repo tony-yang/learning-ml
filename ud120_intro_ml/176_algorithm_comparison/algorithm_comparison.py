@@ -5,6 +5,7 @@ from prep_terrain_data import make_terrain_data2
 from class_vis import pretty_picture
 import time
 
+from adaboost import AdaBoost
 from knn import knn
 
 from sklearn.ensemble import AdaBoostClassifier
@@ -34,24 +35,24 @@ plt.xlabel('grade')
 plt.ylabel('bumpiness')
 plt.show()
 
-gaussianNB_begin = time.time()
+gaussian_nb_begin = time.time()
 clf = GaussianNB()
 clf.fit(features_train, labels_train)
 pred = clf.predict(features_test)
 accuracy = accuracy_score(labels_test, pred)
-gaussianNB_end = time.time()
+gaussian_nb_end = time.time()
 print('====== Gaussian Naive Bayes ======')
 print('The Gaussian naive bayes classification accuracy = {}'.format(accuracy))
-print('Training and prediction time = {}'.format(gaussianNB_end - gaussianNB_begin))
+print('Training and prediction time = {}'.format(gaussian_nb_end - gaussian_nb_begin))
 
 # KNN custom implementation
-customKNN_begin = time.time()
+custom_knn_begin = time.time()
 pred = knn(features_train, labels_train, features_test, k=5)
 accuracy = accuracy_score(labels_test, pred)
-customKNN_end = time.time()
+custom_knn_end = time.time()
 print('====== Custom KNN ======')
 print('The custom KNN classification accuracy = {}'.format(accuracy))
-print('Training and prediction time = {}'.format(customKNN_end - customKNN_begin))
+print('Training and prediction time = {}'.format(custom_knn_end - custom_knn_begin))
 
 # KNN scikit-learn
 knn_begin = time.time()
@@ -63,6 +64,17 @@ knn_end = time.time()
 print('====== sklearn KNN ======')
 print('The sklearn KNN classification accuracy = {}'.format(accuracy))
 print('Training and prediction time = {}'.format(knn_end - knn_begin))
+
+# AdaBoost custom implementation
+custom_adaboost_begin = time.time()
+custom_adaboost = AdaBoost(num_of_hypotheses=100)
+custom_adaboost.fit(features_train, labels_train)
+pred = custom_adaboost.predict(features_test)
+accuracy = accuracy_score(labels_test, pred)
+custom_adaboost_end = time.time()
+print('====== Custom AdaBoost ======')
+print('The custom AdaBoost classification accuracy = {}'.format(accuracy))
+print('Training and prediction time = {}'.format(custom_adaboost_end - custom_adaboost_begin))
 
 # AdaBoost scikit-learn
 adaboost_begin = time.time()
@@ -80,5 +92,6 @@ try:
     pretty_picture(clf, features_test, labels_test)
     pretty_picture(clf2, features_test, labels_test)
     pretty_picture(clf3, features_test, labels_test)
+    pass
 except NameError as e:
     print('There is a name error: {}'.format(e))

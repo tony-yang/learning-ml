@@ -23,13 +23,9 @@ def make_terrain_data(n_points=10000):
     return x_train, y_train, x_test, y_test
 
 def create_label(bumpy_sig, grade_sig, bumpy_bkg, grade_bkg):
-    # features_train_sig = np.c_[bumpy_sig, grade_sig]
-    # features_train_bkg = np.c_[bumpy_bkg, grade_bkg]
-
     features_train_sig = [[grade_item, bumpy_item] for grade_item, bumpy_item in zip(grade_sig, bumpy_sig)]
     features_train_bkg = [[grade_item, bumpy_item] for grade_item, bumpy_item in zip(grade_bkg, bumpy_bkg)]
 
-    # features_train = np.concatenate((features_train_sig, features_train_bkg), axis=0)
     features_train = features_train_sig + features_train_bkg
     labels_train = [0]*len(bumpy_sig) + [1] * len(bumpy_bkg)
 
@@ -47,13 +43,10 @@ def create_random_data_points(n_points=50):
     for x in bumpy_sig:
         error = random.uniform(0, 0.1)
         grade_sig.append(max(0, random.uniform(0.0, (1.0 - x)) - error))
-        #grade_sig.append(random.uniform(0.0, (1.0 - x)) - error)
 
     for x in bumpy_bkg:
         error = random.uniform(0, 0.05)
         grade_bkg.append(min(1, random.uniform((1.0 - x), 1.0) - error))
-        #grade_bkg.append(random.uniform((1.0 - x), 1.0) - error)
-
 
     return bumpy_sig, grade_sig, bumpy_bkg, grade_bkg
 

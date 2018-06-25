@@ -44,10 +44,14 @@ class AdaBoost:
             alpha = 0.5 * math.log((1 - normalized_error) / float(normalized_error))
             self.alphas.append(alpha)
             data_weights = self.generate_new_data_weights(data_weights, alpha, correct_classification_in_integer, num_of_data_points)
+            hypothesis_i_prediction = [item if item > 0 else -1 for item in hypothesis_i_prediction]
             prediction_from_train_x = [sum(aggregated_prediction) for aggregated_prediction in zip(prediction_from_train_x, [prediction_item * alpha for prediction_item in hypothesis_i_prediction])]
         
         final_prediction = np.sign(prediction_from_train_x)
         return self.error_rate(final_prediction, train_y)
+
+    def normalize_final_prediction(self, final_prediction):
+        return [1 if item > 0 else 0 for item in final_prediction]
 
     def predict(self, test_x):
         num_of_data_points = len(test_x)
@@ -55,10 +59,11 @@ class AdaBoost:
         for i in range(self.num_of_hypotheses):
             self.base_classifier.fit(self.x, self.y, self.data_weights[i])
             hypothesis_i_prediction = self.base_classifier.predict(test_x)
+            hypothesis_i_prediction = [item if item > 0 else -1 for item in hypothesis_i_prediction]
             prediction_from_test_x = [sum(aggregated_prediction) for aggregated_prediction in zip(prediction_from_test_x, [prediction_item * self.alphas[i] for prediction_item in hypothesis_i_prediction])]
         
-        final_prediction = np.sign(prediction_from_test_x)
-        return final_prediction, prediction_from_test_x
+        final_prediction = self.normalize_final_prediction(prediction_from_test_x)
+        return final_prediction
 
 
 if __name__ == '__main__':
@@ -85,6 +90,5 @@ if __name__ == '__main__':
         [2.5, 1],
         [5.1, 2.2]
     ]
-    final_prediction, prediction_from_test_x = adaboost.predict(test_x)
-    print('final pred score = {}'.format(prediction_from_test_x))
+    final_prediction = adaboost.predict(test_x)
     print('final prediction = {}'.format(final_prediction))
