@@ -16,8 +16,24 @@ class AdaBoost:
     
     def generate_new_data_weights(self, data_weights, alpha, correct_classification_in_integer, num_of_data_points):
         new_data_weights = []
+        wrong_classification_index = []
+        correct_classification_index = []
+
         for i in range(num_of_data_points):
-            new_data_weights.append(data_weights[i] * math.exp(-alpha * correct_classification_in_integer[i]))
+            if correct_classification_in_integer[i] < 0:
+                wrong_classification_index.append(i)
+            else:
+                correct_classification_index.append(i)
+        
+        wrong_classification_scale = 0.5 / sum([data_weights[i] for i in wrong_classification_index])
+        correct_classification_scale = 0.5 / sum([data_weights[i] for i in correct_classification_index])
+        
+        for i in range(num_of_data_points):
+            if correct_classification_in_integer[i] < 0:
+                new_data_weights.append(data_weights[i] * wrong_classification_scale)
+            else:
+                new_data_weights.append(data_weights[i] * correct_classification_scale)
+
         return new_data_weights
 
     def weighted_prediction_error(self, data_weights, incorrect_classification, num_of_data_points):
@@ -72,10 +88,11 @@ if __name__ == '__main__':
         [1, 4],
         [2.5, 5.5],
         [2, 1],
-        [5, 2]
+        [5, 2],
+        [5,2.2]
     ]
     train_y = [
-        1, 1, 1, -1, -1
+        1, 1, 1, -1, -1, -1
     ]
 
     adaboost = AdaBoost()
