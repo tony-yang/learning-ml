@@ -60,9 +60,11 @@ class AdaBoost:
             alpha = 0.5 * math.log((1 - normalized_error) / float(normalized_error))
             self.alphas.append(alpha)
             data_weights = self.generate_new_data_weights(data_weights, alpha, correct_classification_in_integer, num_of_data_points)
+            # TODO: Seems like these last 2 lines are unneccessary? To improve performance maybe remove them?
             hypothesis_i_prediction = [item if item > 0 else -1 for item in hypothesis_i_prediction]
             prediction_from_train_x = [sum(aggregated_prediction) for aggregated_prediction in zip(prediction_from_train_x, [prediction_item * alpha for prediction_item in hypothesis_i_prediction])]
         
+        # TODO: Seems like the final prediction and error rate are also unnecessary other than for reporting purpose
         final_prediction = np.sign(prediction_from_train_x)
         return self.error_rate(final_prediction, train_y)
 
