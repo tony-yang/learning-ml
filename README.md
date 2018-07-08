@@ -14,7 +14,7 @@ pip3 install --upgrade pip numpy scipy matplotlib scikit-learn pandas
 Note: All non-custom algorithms refer to scikit-learn library
 
 |          | Naive Bayes | Custom KNN | KNN       | Custom AdaBoost | AdaBoost  | Custom Random Forest | Random Forest |
-| -------- | ----------- | ---------- | --------- | --------------- | --------- | -------------------- | ------------- |
+| -------- | :---------: | :--------: | :-------: | :-------------: | :-------: | :------------------: | :-----------: |
 | Accuracy | 91.36%      | 96.16%     | 96.16%    | 96.12%          | 96.28%    | 96.08%               | 96.32%        |
 | Time     | 0.009 sec   | 37.041 sec | 0.017 sec | 6.875 sec       | 0.468 sec | 2.754 sec            | 0.587 sec     |
 
@@ -22,9 +22,9 @@ Note: All non-custom algorithms refer to scikit-learn library
 Note: All non-custom algorithms refer to scikit-learn library
 
 |          | Naive Bayes | Custom KNN | KNN       | Custom AdaBoost | AdaBoost  | Custom Random Forest | Random Forest |
-| -------- | ----------- | ---------- | --------- | --------------- | --------- | -------------------- | ------------- |
-| Accuracy | 90.97%      |    N/A     | 95.61%    | 96.00%          | 96.17%    | 96.20%               | 96.24%        |
-| Time     | 0.067 sec   |    N/A     | 0.162 sec | 59.849 sec      | 3.421 sec | 30.937 sec           | 5.913 sec     |
+| -------- | :---------: | :--------: | :-------: | :-------------: | :-------: | :------------------: | :-----------: |
+| Accuracy | 90.97%      | N/A        | 95.61%    | 96.00%          | 96.17%    | 96.20%               | 96.24%        |
+| Time     | 0.067 sec   | N/A        | 0.162 sec | 59.849 sec      | 3.421 sec | 30.937 sec           | 5.913 sec     |
 
 Navie Bayes is the fastest algorithm, yet accuracy suffers. Random Forest gives the best accuracy, but it is the slowest amongst all the algorithms compared here. On the otherhand, KNN seems to be a great compromise between both worlds. It gives a reasonable good accuracy at a significantly faster speed. For data points of 100,000, it still managed to run in sub-second.
 
