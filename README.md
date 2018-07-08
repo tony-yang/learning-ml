@@ -9,7 +9,7 @@ pip3 install --upgrade pip numpy scipy matplotlib scikit-learn pandas
 
 ## Results
 
-###L4 mini project performance comparison
+### L4 mini project performance comparison
 #### For 10,000 generated terrain data
 Note: All non-custom algorithms refer to scikit-learn library
 
