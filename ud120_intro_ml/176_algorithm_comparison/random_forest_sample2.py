@@ -216,8 +216,9 @@ def bagging_predict(trees, row):
     # pp.pprint(trees)
     predictions = [predict(tree, row) for tree in trees]
 
-    # print('#####+++++##### predictions = {}'.format(predictions))
-    return max(set(predictions), key=predictions.count)
+    print('#####+++++##### predictions = {}'.format(predictions))
+    max_pred = max(set(predictions), key=predictions.count)
+    return max_pred
 
 def random_forest(train_set, test_set, max_depth, min_size, sample_size, n_trees, n_features):
     # print('============ random forest called by main fn')
@@ -260,7 +261,7 @@ if __name__ == '__main__':
     min_size = 1
     sample_size = 1.0
     n_features = int(math.sqrt(len(dataset[0])-1))
-    n_trees = 1
+    n_trees = 5
     scores = evaluate_algorithm(dataset, random_forest, n_folds, max_depth, min_size, sample_size, n_trees, n_features)
     t2 = time.time()
     print('Trees = {}'.format(n_trees))
