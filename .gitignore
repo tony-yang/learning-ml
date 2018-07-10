@@ -104,3 +104,6 @@ venv.bak/
 .mypy_cache/
 
 .DS_Store
+
+# Size too big, not worth putting in github. Can download the zip version if needed
+194_enron
