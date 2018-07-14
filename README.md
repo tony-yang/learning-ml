@@ -4,7 +4,14 @@ Machine Learning coding practice
 ## Environment Setup
 Due to the use of plotting, most of the code will not run inside a container but directly on the host environment. To setup the host environment, install Python 3, and install the packages below
 ```
-pip3 install --upgrade pip numpy scipy matplotlib scikit-learn pandas
+pip3 install --upgrade pip numpy scipy matplotlib scikit-learn pandas nltk
+```
+
+For the nltk language processing toolkit, download the corpora. Choose `all-corpora` after the GUI is launched.
+```
+python3
+import nltk
+nltk.download()
 ```
 
 ## Results

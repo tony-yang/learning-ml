@@ -6,7 +6,6 @@ from sklearn.cluster import KMeans
 
 def feature_format(data_dictionary, features, remove_NaN=True, remove_all_zeroes=True, remove_any_zeroes=False, sort_keys=False):
     return_list = []
-
     if sort_keys:
         keys = sorted(data_dictionary.keys())
     else:
@@ -23,26 +22,21 @@ def feature_format(data_dictionary, features, remove_NaN=True, remove_all_zeroes
             except KeyError:
                 print('error: key {} not presented'.format(feature))
                 return
-        
-        append = True
+
         if features[0] == 'poi':
             test_list = tmp_list[1:]
         else:
             test_list = tmp_list
         
+        if remove_any_zeroes and (0 in test_list or 'NaN' in test_list):
+            next
+
         if remove_all_zeroes:
-            append = False
             for item in test_list:
                 if item != 0 and item != 'NaN':
-                    append = True
+                    return_list.append(np.array(tmp_list))
                     break
-        
-        if remove_any_zeroes:
-            if 0 in test_list or 'NaN' in test_list:
-                append = False
-        
-        if append:
-            return_list.append(np.array(tmp_list))
+
     return return_list
 
 def target_feature_split(data):
@@ -54,14 +48,14 @@ def target_feature_split(data):
     return target, features
 
 def draw(pred, features, poi, mark_poi=False, f1_name='feature1', f2_name='feature2'):
-    colors = ['b', 'c', 'k', 'm', 'g', 'r', 'y', 'w']
+    colors = ['b', 'c', 'k', 'm', 'g', 'y', 'w']
     for i, prediction in enumerate(pred):
         plt.scatter(features[i][0], features[i][1], color=colors[pred[i]])
     
     if mark_poi:
         for i, prediction in enumerate(pred):
             if poi[i]:
-                plt.scatter(features[i][0], featuers[i][1], color='r', marker='*')
+                plt.scatter(features[i][0], features[i][1], color='r', marker='*')
     
     plt.xlabel(f1_name)
     plt.ylabel(f2_name)
@@ -75,10 +69,10 @@ feature2 = 'exercised_stock_options'
 poi = 'poi'
 features_list = [poi, feature1, feature2]
 data = feature_format(data_dictionary, features_list)
-poi, finance_features = target_feature_split(data)
+poi_target, finance_features = target_feature_split(data)
 
-print('poi =')
-print(poi)
+print('poi target =')
+print(poi_target)
 print('finance features =')
 print(finance_features)
 
@@ -87,12 +81,12 @@ for f1, f2 in finance_features:
 
 plt.show()
 
-kmeans = KMeans(random_state=42).fit(finance_features)
+kmeans = KMeans(n_clusters=7, random_state=42).fit(finance_features)
 pred = kmeans.predict(finance_features)
 print('prediction = ')
 print(pred)
 
 try:
-    draw(pred, finance_features, poi, mark_poi=False, f1_name=feature1, f2_name=feature2)
+    draw(pred, finance_features, poi_target, mark_poi=True, f1_name=feature1, f2_name=feature2)
 except NameError:
     print('no predictions object named pred found, no clusters to plot')
