@@ -107,3 +107,5 @@ venv.bak/
 
 # Size too big, not worth putting in github. Can download the zip version if needed
 194_enron
+your_email_authors.pkl
+your_word_data.pkl
