@@ -3,6 +3,7 @@ import string
 import pickle
 
 from nltk.stem.snowball import SnowballStemmer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 def parse_out_text(fh):
     print('======== parse out text ')
@@ -62,3 +63,8 @@ from_chris.close()
 
 pickle.dump(word_data, open('data/your_word_data.pkl', 'wb'))
 pickle.dump(from_data, open('data/your_email_authors.pkl', 'wb'))
+
+vectorizer = TfidfVectorizer()
+vectorizer.fit_transform(word_data)
+print('################ Vectorizer')
+print(vectorizer.vocabulary_)
