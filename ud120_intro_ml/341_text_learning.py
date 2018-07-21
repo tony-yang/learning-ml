@@ -26,8 +26,11 @@ from_data = []
 word_data = []
 
 word_to_be_replaced = ['sara', 'shackleton', 'chris', 'germani']
+counter = 0
 for name, from_person in [('sara', from_sara), ('chris', from_chris)]:
     for path in from_person:
+        counter += 1
+        # if counter < 1000:
         path = os.path.join('194_enron', path[:-1])
         print('# processing {} ...'.format(path))
         if os.path.exists(path):
@@ -43,7 +46,7 @@ for name, from_person in [('sara', from_sara), ('chris', from_chris)]:
                     from_data.append(0)
                 elif name == 'chris':
                     from_data.append(1)
-                    
+                
 print('emails processed')
 from_sara.close()
 from_chris.close()
